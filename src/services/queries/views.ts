@@ -3,14 +3,19 @@ import { itemsKey, itemsByViewsKey, itemsViewsKey } from '$services/keys';
 
 
 export const incrementView = async (itemId: string, userId: string) => {
-  const inserted = await client.pfAdd(itemsViewsKey(itemId), userId);
+  // Old way:
 
-  if (inserted) {
-    return Promise.all([
-      client.hIncrBy(itemsKey(itemId), 'views', 1),
-      client.zIncrBy(itemsByViewsKey(), 1, itemId)
-    ]);
-  }
+  // const inserted = await client.pfAdd(itemsViewsKey(itemId), userId);
+
+  // if (inserted) {
+  //   return Promise.all([
+  //     client.hIncrBy(itemsKey(itemId), 'views', 1),
+  //     client.zIncrBy(itemsByViewsKey(), 1, itemId)
+  //   ]);
+  // }
+
+  // New way:
+  return client.incrementView(itemId, userId);
 };
 
 // Keys I need to access
