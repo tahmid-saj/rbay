@@ -52,19 +52,19 @@ const client = createClient({
 				// EVALSHA <ID> 3 items:views#adds items$adsf items:views dsfa u1243
 			},
 			transformReply() {
-				
+
 			}
 		})
 	}
 });
 
 // client.addOneAndStore();
-client.on('connect', async () => {
-	await client.addOneAndStore('books:count', 10);
+// client.on('connect', async () => {
+// 	await client.addOneAndStore('books:count', 10);
 
-	const result = await client.get('books:count');
-	console.log(result);
-})
+// 	const result = await client.get('books:count');
+// 	console.log(result);
+// })
 
 client.on('error', (err) => console.error(err));
 client.connect();
