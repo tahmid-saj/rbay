@@ -1,5 +1,6 @@
 import { createClient, defineScript } from 'redis';
 import { incrementView } from '../queries/views';
+import { itemsKey, itemsByViewsKey, itemsViewsKey } from '$services/keys';
 
 const client = createClient({
 	socket: {
@@ -38,7 +39,21 @@ const client = createClient({
 					redis.call('HINCRBY', itemsKey, 'views', 1)
 					redis.call('ZINCRBY', itemsByViewsKey, 1, itemId)
 				end
-			`
+			`,
+			transformArguments(itemId: string, userId: string) {
+				return [
+					itemsViewsKey(itemId), // -> gives items:views#adds
+					itemsKey(itemId), // -> gives items$adsf
+					itemsByViewsKey(), // -> gives items:views
+					itemId, // -> gives dsfa
+					userId // -> gives u1243 for instance
+				];
+
+				// EVALSHA <ID> 3 items:views#adds items$adsf items:views dsfa u1243
+			},
+			transformReply() {
+				
+			}
 		})
 	}
 });
