@@ -10,6 +10,8 @@ const client = createClient({
 		addOneAndStore: defineScript({
 			NUMBER_OF_KEYS: 1,
 			SCRIPT: `
+				local keyToAssignIncrementedNumberTo = KEYS[1]
+
 				return redis.call('SET', KEYS[1], 1 + tonumber(ARGV[1]))
 			`,
 			transformArguments(key: string, value: number) {
