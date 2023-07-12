@@ -1,1 +1,5 @@
-export const createIndexes = async () => {};
+import { itemsIndexKey } from "$services/keys";
+
+export const createIndexes = async () => {
+  
+};
