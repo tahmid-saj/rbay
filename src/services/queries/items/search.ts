@@ -17,10 +17,12 @@ export const searchItems = async (term: string, size: number = 5) => {
     return [];
   }
 
+  const query = `(@name:(${cleaned}) => { $weight: 5.0 }) | (@description:(${cleaned}))`
+
   // Use the client to an actual search
   const results = await client.ft.search(
     itemsIndexKey(),
-    cleaned,
+    query,
     {
       LIMIT: {
         from: 0,
